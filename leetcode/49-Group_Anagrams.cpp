@@ -7,21 +7,23 @@ class Solution {
 public:
     unordered_map <int, int> M;
     vector<vector<string> > groupAnagrams(vector<string>& strs) {
-        vector<vector<string> > res;
+        vector<vector<string> > res ;
         int n = strs.size();
         for (int i = 0 ; i < n ; ++i) {
             int bitval = 0;
             int l = strs[i].length();
             for (int j = 0 ; j < l ; ++j) {
-                bitval |= (1 << (strs[i][j] - 'a'));
+                bitval |= (1 << int(strs[i][j] - 'a'));
             }
-            unordered_map<int,int>::iterator w = M.find(bitval);
-            if (w == M.end()) {
+            //unordered_map<int,int>::iterator w = M.find(bitval);
+            if (M.count(bitval) == 0) {
                 M[bitval] = M.size() + 1;
                 vector<string> newvec;
+                newvec.push_back(strs[i]);
                 res.push_back(newvec);
+            }else {
+                res[M[bitval]-1].push_back(strs[i]);
             }
-            res[M[bitval]-1].push_back(strs[i]);
         }
         for (int i = 0; i < res.size(); ++i) {
             sort(res[i].begin(), res[i].end());
@@ -31,7 +33,8 @@ public:
 };
 int main (){
     vector<string> strs;
-    strs.push_back("a");
+    strs.push_back("");
+    strs.push_back("");
 //    strs.push_back("eat");
 //    strs.push_back("tea");
 //    strs.push_back("tan");
