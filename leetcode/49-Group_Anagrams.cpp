@@ -5,36 +5,26 @@ using namespace std;
 
 class Solution {
 public:
-    unordered_map <int, int> M;
     vector<vector<string> > groupAnagrams(vector<string>& strs) {
         vector<vector<string> > res ;
+        unordered_map <string, vector<string> > M;
         int n = strs.size();
-        for (int i = 0 ; i < n ; ++i) {
-            int bitval = 0;
-            int l = strs[i].length();
-            for (int j = 0 ; j < l ; ++j) {
-                bitval |= (1 << int(strs[i][j] - 'a'));
-            }
-            //unordered_map<int,int>::iterator w = M.find(bitval);
-            if (M.count(bitval) == 0) {
-                M[bitval] = M.size() + 1;
-                vector<string> newvec;
-                newvec.push_back(strs[i]);
-                res.push_back(newvec);
-            }else {
-                res[M[bitval]-1].push_back(strs[i]);
-            }
+        int i = 0 ;
+        for (auto s: strs) {
+            sort(s.begin(), s.end());
+            M[s].push_back(strs[i++]);
         }
-        for (int i = 0; i < res.size(); ++i) {
-            sort(res[i].begin(), res[i].end());
+        for (auto m: M) {
+            sort(m.second.begin(), m.second.end());
+            res.push_back(m.second);
         }
         return res;
     }
 };
 int main (){
     vector<string> strs;
-    strs.push_back("");
-    strs.push_back("");
+    strs.push_back("bob");
+    strs.push_back("boo");
 //    strs.push_back("eat");
 //    strs.push_back("tea");
 //    strs.push_back("tan");
